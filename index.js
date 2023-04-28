@@ -14,29 +14,31 @@ const client = new MongoClient(uri, {
 });
 
 async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    const insertData= async () => {
-        let data=await MongoClient();
-        let result= await data.insert({
-            name:"shuvo", 
-            price:20, 
-            quantity:5
-             
-         })
-
-         console.log('inserted', result);
+    try {
+         await client.connect();
+         console.log("Connected correctly to server");
+         const db = client.db('myData');
+         // Use the collection "people"
+         const col = db.collection("products");
+         // Construct a document                                                                                                                                                              
+         let product = {
+             name: 'Shuvo',
+             price:20,
+             quantity:4
+         }
+         // Insert a single document, wait for promise so we can read it back
+         const p = await col.insertOne(product);
+         // Find one document
+         const myDoc = await col.findOne();
+         // Print to the console
+         console.log(myDoc);
+        } catch (err) {
+         console.log(err.stack);
+     }
+ 
+     finally {
+        await client.close();
     }
-    await client.db("admin").command({ ping: 1 });
-    
-
-
-    
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
 }
 run().catch(console.dir);
 
