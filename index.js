@@ -48,7 +48,7 @@ const app=express();
 
 
 app.get('/', (req, res)=>{
-    res.send('req res created');
+    res.sendFile(__dirname + '/index.html');
 })
 
 app.listen(3000);
