@@ -63,4 +63,8 @@ app.get('/product', async (req, res)=>{
     
 })
 
+app.delete('/delete/:id', (req, res)=>{
+    console.log(req.params.id);
+})
+
 app.listen(3000);
