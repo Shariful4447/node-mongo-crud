@@ -55,7 +55,7 @@ app.get('/product', async (req, res)=>{
     const productCollection = client.db('myData').collection("products");
     
    
-    const products = await productCollection.find({}).toArray();
+    const products = await productCollection.find({}).limit(5).toArray();
     res.send(products)
 
     

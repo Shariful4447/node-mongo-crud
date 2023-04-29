@@ -18,5 +18,28 @@
 
     </form>
 
+    <div id="product">
+
+    </div>
+
+    <script>
+        function loadProduct(){
+            fetch('/product')
+        .then(res => res.json())
+        .then(product => {
+            console.log(product);
+            const container = document.getElementById('product');
+            product.forEach(product => {
+                const p = document.createElement('p');
+                p.innerHTML =`<strong> ${product.name}</strong> --price: ${product.price} quantity: ${product.quantity}`;
+                container.appendChild(p);
+                
+            });
+        })
+        
+        }
+        loadProduct();
+    </script>
+
 </body>
 </html>
