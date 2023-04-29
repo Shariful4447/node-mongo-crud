@@ -40,13 +40,27 @@ app.post('/add-product',async (req, res)=>{
     const product=req.body;
     console.log(product);
     const result = await col.insertOne(product);
-    res.redirect('/product');
+    res.send('success');
+    //res.redirect('/product');
    
 
 })
 
-app.get('/product', (req, res)=>{
-    res.sendFile(__dirname + '/product.html');
+// app.get('/product', (req, res)=>{
+//     res.sendFile(__dirname + '/product.html');
+// })
+
+app.get('/product', async (req, res)=>{
+    await client.connect();
+    const productCollection = client.db('myData').collection("products");
+    
+   
+    const products = await productCollection.find({}).toArray();
+    res.send(products)
+
+    
+
+    
 })
 
 app.listen(3000);
