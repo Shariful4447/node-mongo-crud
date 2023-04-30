@@ -55,7 +55,7 @@ app.get('/product', async (req, res)=>{
     const productCollection = client.db('myData').collection("products");
     
    
-    const products = await productCollection.find({}).limit(5).toArray();
+    const products = await productCollection.find({}).toArray();
     res.send(products)
 
     
@@ -63,8 +63,20 @@ app.get('/product', async (req, res)=>{
     
 })
 
-app.delete('/delete/:id', (req, res)=>{
+app.delete('/delete/:id', async (req, res)=>{
     console.log(req.params.id);
+
+    await client.connect();
+
+    const productCollection = client.db('myData').collection("products");
+    const id = req.params.id;
+    // console.log('trying to delete', id);
+    const query = { _id: ObjectId(id) }
+    const result = await productCollection.deleteOne(query);
+    console.log(result);
+    res.send(result);
 })
+
+
 
 app.listen(3000);
