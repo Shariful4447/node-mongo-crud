@@ -2,7 +2,7 @@ const express=require('express');
 const bodyParser = require('body-parser');
 
 
-const { MongoClient, ServerApiVersion} = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId} = require('mongodb');
 const uri = "mongodb+srv://roslinshuvo:gUui1dz3JlvzlnnG@cluster0.w2aoa6h.mongodb.net/?retryWrites=true&w=majority";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -63,19 +63,17 @@ app.get('/product', async (req, res)=>{
     
 })
 
-app.delete('/delete/:id', async (req, res)=>{
-    console.log(req.params.id);
-
+app.delete('/delete/:id', async (req, res) => {
     await client.connect();
-
-    const productCollection = client.db('myData').collection("products");
     const id = req.params.id;
     // console.log('trying to delete', id);
-    const query = { _id: ObjectId(id) }
+    var Object = require('mongodb').ObjectId;
+    const query = { _id:new Object(id) }
+    const productCollection = client.db('myData').collection("products");
     const result = await productCollection.deleteOne(query);
     console.log(result);
     res.send(result);
-})
+});
 
 
 
