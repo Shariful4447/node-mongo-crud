@@ -22,6 +22,15 @@
 
     </div>
 
+    <form action="/update-product" method="post">
+        <input type="text" placeholder="name" name="name">
+        <input type="text" placeholder="price" name="price">
+        <input type="text" placeholder="quantity" name="quantity">
+        <button type="submit">update product</button>
+        
+
+    </form>
+
     <script>
         function loadProduct(){
             fetch('/product')
