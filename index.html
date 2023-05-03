@@ -22,17 +22,9 @@
 
     </div>
 
-    <form action="/update-product" method="post">
-        <input type="text" placeholder="name" name="name">
-        <input type="text" placeholder="price" name="price">
-        <input type="text" placeholder="quantity" name="quantity">
-        <button type="submit">update product</button>
-        
-
-    </form>
 
     <script>
-        function loadProduct(){
+        function loadAllProduct(){
             fetch('/product')
         .then(res => res.json())
         .then(product => {
@@ -41,6 +33,7 @@
             product.forEach(product => {
                 const p = document.createElement('p');
                 p.innerHTML =`<strong> ${product.name}</strong> --price: ${product.price} quantity: ${product.quantity}
+                <button onclick="loadProduct('${product._id}')">Update</button>
                 <button onclick="deleteProduct('${product._id}')">Delete</button>
                 `;
                 container.appendChild(p);
@@ -49,7 +42,15 @@
         })
         
         }
-        loadProduct();
+        loadAllProduct();
+
+        function loadProduct(id){
+            fetch(`product/${id}`)
+            .then(res =>res.json())
+            .then(data=>{
+                console.log(data);
+            })
+        }
 
         function deleteProduct(id){
             console.log(id);

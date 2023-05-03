@@ -31,6 +31,8 @@ app.get('/', (req, res)=>{
 })
 
 
+
+
 app.post('/add-product',async (req, res)=>{
     await client.connect();
     const db = client.db('myData');
@@ -61,6 +63,17 @@ app.get('/product', async (req, res)=>{
     
 
     
+})
+
+app.get('/product/:id', async (req, res)=>{
+    await client.connect();
+    const productCollection = client.db('myData').collection("products");
+    const id = req.params.id;
+    // console.log('trying to delete', id);
+    var Object = require('mongodb').ObjectId;
+    const query = { _id:new Object(id) }
+    const products = await productCollection.find({query}).toArray();
+    res.send(products)
 })
 
 app.delete('/delete/:id', async (req, res) => {
